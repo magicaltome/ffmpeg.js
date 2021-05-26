@@ -1,7 +1,7 @@
 Tome fork of ffmpeg.js
 
 # Key changes from main repo
-- Remove autoscaling from make (-j) flag as that causes build issues
+- Remove autoscaling from make (-j) flag as that causes build issues on docker mac
 - Update ffmpeg to latest as we need version >4.4
 
 # ffmpeg.js
