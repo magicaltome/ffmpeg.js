@@ -6,6 +6,7 @@ PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
+COMMON_BSFS = h264_mp4toannexb
 COMMON_FILTERS = aresample scale crop overlay hstack vstack
 COMMON_DEMUXERS = matroska ogg mov mp3 wav image2 concat
 COMMON_DECODERS = vp8 h264 vorbis opus mp3 aac pcm_s16le mjpeg png
@@ -65,7 +66,7 @@ build/opus/dist/lib/libopus.so: build/opus/configure
 		--disable-hardening \
 		--disable-stack-protector \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	emmake make install
 
 build/libvpx/dist/lib/libvpx.so:
@@ -89,7 +90,7 @@ build/libvpx/dist/lib/libvpx.so:
 		--disable-vp8-decoder \
 		--disable-vp9 \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	emmake make install
 
 build/lame/dist/lib/libmp3lame.so:
@@ -107,7 +108,7 @@ build/lame/dist/lib/libmp3lame.so:
 		--disable-decoder \
 		--disable-frontend \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	emmake make install
 
 build/x264/dist/lib/libx264.so:
@@ -132,7 +133,7 @@ build/x264/dist/lib/libx264.so:
 		--disable-gpac \
 		--disable-lsmash \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	emmake make install
 
 # TODO(Kagami): Emscripten documentation recommends to always use shared
@@ -175,6 +176,7 @@ FFMPEG_COMMON_ARGS = \
 	$(addprefix --enable-decoder=,$(COMMON_DECODERS)) \
 	$(addprefix --enable-demuxer=,$(COMMON_DEMUXERS)) \
 	--enable-protocol=file \
+	$(addprefix --enable-bsf=,$(COMMON_BSFS)) \
 	$(addprefix --enable-filter=,$(COMMON_FILTERS)) \
 	--disable-bzlib \
 	--disable-iconv \
@@ -196,7 +198,7 @@ build/ffmpeg-webm/ffmpeg.bc: $(WEBM_SHARED_DEPS)
 		--extra-cflags="-s USE_ZLIB=1 -I../libvpx/dist/include" \
 		--extra-ldflags="-L../libvpx/dist/lib" \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	cp ffmpeg ffmpeg.bc
 
 build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
@@ -211,7 +213,7 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 		--extra-cflags="-s USE_ZLIB=1 -I../lame/dist/include" \
 		--extra-ldflags="-L../lame/dist/lib" \
 		&& \
-	emmake make -j && \
+	emmake make && \
 	cp ffmpeg ffmpeg.bc
 
 EMCC_COMMON_ARGS = \
