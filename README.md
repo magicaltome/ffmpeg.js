@@ -2,7 +2,12 @@ Tome fork of ffmpeg.js
 
 # Key changes from main repo
 - Remove autoscaling from make (-j) flag as that causes build issues on docker mac
+- Compile ffmpeg with bitstream filters
 - Update ffmpeg to latest as we need version >4.4
+- Commit needed built sources to this repo in bin/. Do this if you rebuild with changes
+
+# How this is used
+- frontend-web lists this repo as a dependency via yarn and then gets the built sources it needs from bin/
 
 # ffmpeg.js
 
